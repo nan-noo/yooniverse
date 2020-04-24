@@ -1,0 +1,19 @@
+body {
+    background-color: #eee;
+}
+
+/*your code here*/
+div {margin: 0 auto; width: 570px;}
+
+h1, table {font-family: 'Baloo Bhaina 2', serif;}
+
+table {width: 550px; text-align: left; border-collapse: collapse;}
+th{border-bottom: 2px solid black; font-size: 20px;}
+td {border-bottom: 1px solid #D3D3D3; font-size: 18px;}
+th, td{padding: 4px;}
+
+.emptyRow {color: black; text-align: center;}
+.blueRow {color: blue;}
+.redRow {color: red;}
+
+.ui-autocomplete {max-height: 200px; overflow-y: auto; overflow-x: hidden;}
