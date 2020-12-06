@@ -10,12 +10,12 @@ import matplotlib.pyplot as plt
 import time
 from pprint import pprint
 
-data = pd.read_csv("./finaldata/1105/1105full.csv") ############
-data = data.drop(['Unnamed: 0'], axis=1)
+data = pd.read_csv("./modi_data/kor_full.csv") ############
+#data = data.drop(['Unnamed: 0'], axis=1)
 #print(data)
 
 
-dfWordList = pd.read_excel("./단어수정.xlsx")
+dfWordList = pd.read_excel("./word_cor.xlsx")
 #print(dfWordList)
 
 dfWordDel = dfWordList[dfWordList["수정"] == "삭제"]
