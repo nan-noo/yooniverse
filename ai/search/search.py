@@ -90,13 +90,13 @@ def depthFirstSearch(problem):
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
     "*** YOUR CODE HERE ***"
-    # state not in visit -> 1. state visit에 추가 2. successor stack에 추가
     start = problem.getStartState()
     stack = util.Stack()
     visit = []
    
-    stack.push((start, []))
+    stack.push((start, [])) # ((x,y), path)
 
+    # current state not visited -> 1. state visit에 추가 2. goal state인지 확인 3. successors stack에 추가
     while not stack.isEmpty():
         state, path = stack.pop() # ((x,y), path)
         if state not in visit:
@@ -105,7 +105,7 @@ def depthFirstSearch(problem):
                 return path
             
             for successor, direction, cost in problem.getSuccessors(state): # ((x,y), 'Direction', #cost)
-                stack.push((successor, path + [direction])) # new path
+                stack.push((successor, path + [direction])) # successor, new path
     return [] # if not found
     #util.raiseNotDefined()
 
@@ -118,6 +118,7 @@ def breadthFirstSearch(problem):
    
     queue.push((start, []))
 
+     # current state not visited -> 1. state visit에 추가 2. goal state인지 확인 3. successors queue에 추가
     while not queue.isEmpty():
         state, path = queue.pop() # ((x,y), path)
         if state not in visit:
@@ -126,7 +127,7 @@ def breadthFirstSearch(problem):
                 return path
             
             for successor, direction, cost in problem.getSuccessors(state): # ((x,y), 'Direction', #cost)
-                queue.push((successor, path + [direction])) # new path
+                queue.push((successor, path + [direction])) # successor, new path
     return [] # if not found
     #util.raiseNotDefined()
 
@@ -151,7 +152,6 @@ def uniformCostSearch(problem):
                 new_cost = problem.getCostOfActions(new_path)
                 p_queue.push((successor, new_path), new_cost) # new path
     return [] # if not found
-
     #util.raiseNotDefined()
 
 def nullHeuristic(state, problem=None):
@@ -164,7 +164,6 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
-    # _cost = cur_cost + heu_cost
     start = problem.getStartState()
     p_queue = util.PriorityQueue()
     visit = []
@@ -181,12 +180,10 @@ def aStarSearch(problem, heuristic=nullHeuristic):
             for successor, direction, cost in problem.getSuccessors(state): # ((x,y), 'Direction', #cost)
                 new_path = path + [direction]
                 new_cost = problem.getCostOfActions(new_path)
-                h_cost = new_cost + heuristic(successor, problem)
+                h_cost = new_cost + heuristic(successor, problem) # h_cost = real_cost + heuristic_cost
                 p_queue.push((successor, new_path), h_cost) # new path
     return [] # if not found
-
     #util.raiseNotDefined()
-
 
 # Abbreviations
 bfs = breadthFirstSearch
