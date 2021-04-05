@@ -258,7 +258,15 @@ def manhattanHeuristic(position, problem, info={}):
 
 def myHeuristic(position, problem, info={}):
     "You build your own heuristic function here"
-    util.raiseNotDefined()
+    "start와는 멀고, goal과는 가까운 successor 선택"
+    x, y = position # successor
+    gX, gY = problem.goal # goal state
+    sX, sY = problem.getStartState() # start state
+
+    a = abs(x - gX) + abs(y - gY) # goal과 manhattan distance, 작을수록
+    b = abs(x - sX) + abs(y - sY) # start와 manhattan distance, 클수록
+    return a - b
+    #util.raiseNotDefined()
 
 def euclideanHeuristic(position, problem, info={}):
     "The Euclidean distance heuristic for a PositionSearchProblem"
