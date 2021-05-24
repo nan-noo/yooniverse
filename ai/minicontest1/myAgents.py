@@ -24,9 +24,10 @@ IMPORTANT
 but when you're ready to test your own agent, replace it with MyAgent
 """
 def createAgents(num_pacmen, agent='ClosestDotAgent'): 
-    # 두 agent는 ClosestDotAgent로 설정
-    list = [ClosestDotAgent(index=0), ClosestDotAgent(index=1)]
-    list = list + [eval(agent)(index=i) for i in range(2, num_pacmen)]
+    # global numPacman 
+    # numPacman = num_pacmen
+    # list = [ClosestDotAgent(index=0), ClosestDotAgent(index=1)]
+    # list = list + [eval(agent)(index=i) for i in range(2, num_pacmen)]
     return [eval(agent)(index=i) for i in range(num_pacmen)]
     #return list
 
@@ -43,22 +44,20 @@ class MyAgent(Agent):
         "*** YOUR CODE HERE ***"
         # scoring: +10(eat pellet)/ +500(eat all pellets)/ 0.4(action taken)/ -time*1000(computing cost)
         # 처음 path를 계산하고 action을 취해도, 그 path가 끝날 때까지 다시 계산하지 않음(computing cost때문)
-        # dfs, astar w/ manhattan은 종료됨 -> ucs나 bfs사용
-        # path 도중에 target food가 사라진다면 경로 재계산
-
-        import search
-        food = state.getFood().asList() # [(1, 1), ...]
-        problem = AnyFoodSearchProblem(state, self.index)
+        # 다른 agent가 target으로 삼지 않은 food를 goalstate로 선택
 
         if len(self.path) == 0: # start or no actions left
-            #self.path = search.bfs(problem)
-            self.path, self.target = self.myBFS(problem)
+            problem = AnyFoodSearchProblem(state, self.index)
+            self.path, self.target = self.myCDA(problem) # test71에서 BFS보다 점수가 10점가량 더 높음
+            #self.path, self.target = self.myBFS(problem) # 기본실행은 둘 다 비슷, 평균적으로 CDA가 더 나음
             action = self.path[0]
             del self.path[0]
             return action
         else: # path가 남아 있으면 다시 계산하지 않고 진행
-            if self.target not in food: # path는 남아있는데, target food를 다른 agent가 먹음
-                self.path, self.target = self.myGreedy(problem) # 경로 재계산
+            # food = state.getFood().asList() # [(1, 1), ...]
+            # if self.target not in food: # path는 남아있는데, target food를 다른 agent가 먹음
+            #     problem = AnyFoodSearchProblem(state, self.index)
+            #     self.path, self.target = self.myCDA(problem) # 경로 재계산 -> 계산 cost때문에 더 안좋음
             action = self.path[0]
             del self.path[0]
             return action
@@ -74,13 +73,15 @@ class MyAgent(Agent):
 
         "*** YOUR CODE HERE"
         self.target = (-1,-1)
-        self.path = [] # initializing each agent path
+        self.path = [] # initializing each agent's path
+
+        global targetList
+        targetList = []
 
         #raise NotImplementedError()
     
     def myBFS(self, problem):
         """Search the shallowest nodes in the search tree first."""
-    
         fringe = util.Queue()
         current = (problem.getStartState(), [])
         fringe.push(current)
@@ -94,8 +95,9 @@ class MyAgent(Agent):
                 closed.append(node)
                 for coord, move, cost in problem.getSuccessors(node):
                     fringe.push((coord, path + [move]))
+        return path, node
 
-    def myGreedy(self, problem): # manhattan거리가 가장 가까운 food 선택하는 걸로 수정
+    def myCDA(self, problem):
         """
         Returns a path (a list of actions) to the closest dot, starting from
         gameState.
@@ -206,8 +208,13 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         The state is Pacman's position. Fill this in with a goal test that will
         complete the problem definition.
         """
+        global targetList
+        global stopFlag
+
         x,y = state
-        if self.food[x][y] == True:
+        # 다른 agent가 target으로 삼지 않았을 때도 조건으로 추가
+        if state not in targetList and self.food[x][y] == True: 
+            targetList.append(state)
             return True
         return False
 
