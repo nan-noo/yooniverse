@@ -75,9 +75,9 @@ class MyAgent(Agent):
         self.target = (-1,-1)
         self.path = [] # initializing each agent's path
 
-        global targetList
-        targetList = []
-
+        if self.index == 0: # 처음 한번만 초기화
+            global targetList
+            targetList = []
         #raise NotImplementedError()
     
     def myBFS(self, problem):
