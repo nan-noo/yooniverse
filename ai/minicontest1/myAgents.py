@@ -208,9 +208,6 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         The state is Pacman's position. Fill this in with a goal test that will
         complete the problem definition.
         """
-        global targetList
-        global stopFlag
-
         x,y = state
         # 다른 agent가 target으로 삼지 않았을 때도 조건으로 추가
         if state not in targetList and self.food[x][y] == True: 
