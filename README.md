@@ -1,1 +1,1 @@
-# individual practice || assignments
+# individual practice & assignments
