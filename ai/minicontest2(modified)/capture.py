@@ -1004,7 +1004,7 @@ def runGames( layouts, agents, display, length, numGames, record, numTraining, r
       with open('replay-%d'%i,'wb') as f:
         f.write(g.record)
 
-  if numGames > 1:
+  if numGames >= 1:
     scores = [game.state.data.score for game in games]
     redWinRate = [s > 0 for s in scores].count(True)/ float(len(scores))
     redLoseRate = [s < 0 for s in scores].count(True)/ float(len(scores))

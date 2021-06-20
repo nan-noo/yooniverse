@@ -1,5 +1,5 @@
-# baselineTeam.py
-# ---------------
+# myTeam.py
+# ---------
 # Licensing Information:  You are free to use or extend these projects for
 # educational purposes provided that (1) you do not distribute or publish
 # solutions, (2) you retain this notice, and (3) you provide clear
@@ -12,17 +12,8 @@
 # Pieter Abbeel (pabbeel@cs.berkeley.edu).
 
 
-# baselineTeam.py
-# ---------------
-# Licensing Information: Please do not distribute or publish solutions to this
-# project. You are free to use and extend these projects for educational
-# purposes. The Pacman AI projects were developed at UC Berkeley, primarily by
-# John DeNero (denero@cs.berkeley.edu) and Dan Klein (klein@cs.berkeley.edu).
-# For more info, see http://inst.eecs.berkeley.edu/~cs188/sp09/pacman.html
-
 from captureAgents import CaptureAgent
-import distanceCalculator
-import random, time, util, sys
+import random, time, util
 from game import Directions
 import game
 from util import nearestPoint
@@ -32,7 +23,7 @@ from util import nearestPoint
 #################
 
 def createTeam(firstIndex, secondIndex, isRed,
-               first = 'OffensiveReflexAgent', second = 'DefensiveReflexAgent'):
+               first = 'OffensiveAgent', second = 'DefensiveAgent'):
   """
   This function should return a list of two agents that will form the
   team, initialized using firstIndex and secondIndex as their agent
@@ -47,18 +38,23 @@ def createTeam(firstIndex, secondIndex, isRed,
   any extra arguments, so you should make sure that the default
   behavior is what you want for the nightly contest.
   """
+
+  # The following line is an example only; feel free to change it.
   return [eval(first)(firstIndex), eval(second)(secondIndex)]
 
 ##########
 # Agents #
 ##########
 
-class ReflexCaptureAgent(CaptureAgent):
+class DummyAgent(CaptureAgent):
   """
-  A base class for reflex agents that chooses score-maximizing actions
+  A Dummy agent to serve as an example of the necessary agent structure.
+  You should look at baselineTeam.py for more details about how to
+  create an agent as this is the bare minimum.
   """
- 
+
   def registerInitialState(self, gameState):
+    self.numEatenFood = 0
     self.start = gameState.getAgentPosition(self.index)
     CaptureAgent.registerInitialState(self, gameState)
 
@@ -76,9 +72,12 @@ class ReflexCaptureAgent(CaptureAgent):
     maxValue = max(values)
     bestActions = [a for a, v in zip(actions, values) if v == maxValue]
 
-    foodLeft = len(self.getFood(gameState).asList())
+    nextAction = random.choice(bestActions)
 
-    if foodLeft <= 2:
+    curfoodLeft = len(self.getFood(gameState).asList())
+    self.numEatenFood = gameState.getAgentState(self.index).numCarrying
+
+    if curfoodLeft <= 2:
       bestDist = 9999
       for action in actions:
         successor = self.getSuccessor(gameState, action)
@@ -89,7 +88,8 @@ class ReflexCaptureAgent(CaptureAgent):
           bestDist = dist
       return bestAction
 
-    return random.choice(bestActions)
+    #print(gameState.getAgentState(self.index))
+    return nextAction
 
   def getSuccessor(self, gameState, action):
     """
@@ -127,30 +127,56 @@ class ReflexCaptureAgent(CaptureAgent):
     """
     return {'successorScore': 1.0}
 
-class OffensiveReflexAgent(ReflexCaptureAgent):
-  """
-  A reflex agent that seeks food. This is an agent
-  we give you to get an idea of what an offensive agent might look like,
-  but it is by no means the best or only way to build an offensive agent.
-  """
+class OffensiveAgent(DummyAgent):
+
   def getFeatures(self, gameState, action):
     features = util.Counter()
     successor = self.getSuccessor(gameState, action)
     foodList = self.getFood(successor).asList()    
-    features['successorScore'] = -len(foodList)#self.getScore(successor)
-
+    features['successorScore'] = -len(foodList) #self.getScore(successor)
+    myPos = successor.getAgentState(self.index).getPosition()
+    
+    enemies = [successor.getAgentState(i) for i in self.getOpponents(successor)]
+    invaders = [a for a in enemies if a.isPacman and a.getPosition() != None]
+    enemyGhosts = [g for g in enemies if g not in invaders]
     # Compute distance to the nearest food
 
-    if len(foodList) > 0: # This should always be True,  but better safe than sorry
+    if len(foodList) > 0 :
       myPos = successor.getAgentState(self.index).getPosition()
       minDistance = min([self.getMazeDistance(myPos, food) for food in foodList])
       features['distanceToFood'] = minDistance
+    
+    if len(invaders) > 0: # enemy pacman exist
+      features['invaders'] = min([self.getMazeDistance(myPos, i.getPosition()) for i in invaders])
+
+    if len(enemyGhosts) > 0: # enemy ghost exist
+      for ghost in enemyGhosts:
+        if ghost.scaredTimer == 0: # enemy ghost is not scared
+          features['enemyGhost'] = min([self.getMazeDistance(myPos, ghost.getPosition()) for ghost in enemyGhosts])
+          break
+  
+    if features['enemyGhost'] > 2: # 3칸 이상 떨어진 유령은 고려 안함
+      features['enemyGhost'] = 0
+
+    capsuleList = self.getCapsules(gameState)
+    features['numCapsulesLeft'] = len(capsuleList)
+    if features['numCapsulesLeft'] > 0:
+      features['distanceToCapsule'] = min([self.getMazeDistance(myPos, capsule) for capsule in capsuleList])
+    
+    if self.numEatenFood > 1:
+      features['distToStart'] = self.getMazeDistance(myPos, self.start)
+    else: features['distToStart'] = 0
+    
+    if action == Directions.STOP:
+      features['stop'] = 1
+
     return features
 
   def getWeights(self, gameState, action):
-    return {'successorScore': 100, 'distanceToFood': -1}
+    return {'successorScore': 100, 'distanceToFood': -1, 'numCapsulesLeft': -100, 
+    'distanceToCapsule': -120, 'invaders': -10, 'enemyGhost': -100, 'distToStart': -10, 'stop': -100}
 
-class DefensiveReflexAgent(ReflexCaptureAgent):
+class DefensiveAgent(DummyAgent):
   """
   A reflex agent that keeps its side Pacman-free. Again,
   this is to give you an idea of what a defensive agent
@@ -172,10 +198,19 @@ class DefensiveReflexAgent(ReflexCaptureAgent):
     # Computes distance to invaders we can see
     enemies = [successor.getAgentState(i) for i in self.getOpponents(successor)]
     invaders = [a for a in enemies if a.isPacman and a.getPosition() != None]
+    enemyGhosts = [g for g in enemies if g not in invaders]
+    
     features['numInvaders'] = len(invaders)
+    
     if len(invaders) > 0:
       dists = [self.getMazeDistance(myPos, a.getPosition()) for a in invaders]
       features['invaderDistance'] = min(dists)
+
+    if len(enemyGhosts) > 0: # enemy ghost exist
+      for ghost in enemyGhosts:
+        if ghost.scaredTimer == 0: # enemy ghost is not scared
+          features['enemyGhost'] = min([self.getMazeDistance(myPos, ghost.getPosition()) for ghost in enemyGhosts])
+          break
 
     if action == Directions.STOP: features['stop'] = 1
     rev = Directions.REVERSE[gameState.getAgentState(self.index).configuration.direction]
@@ -184,4 +219,4 @@ class DefensiveReflexAgent(ReflexCaptureAgent):
     return features
 
   def getWeights(self, gameState, action):
-    return {'numInvaders': -1000, 'onDefense': 100, 'invaderDistance': -10, 'stop': -100, 'reverse': -2}
+    return {'numInvaders': -100, 'onDefense': 50, 'invaderDistance': -10, 'stop': -100, 'reverse': -2, 'enemyGhost': -10}
