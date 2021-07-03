@@ -1,0 +1,32 @@
+﻿  main.cpp
+C:\Users\uni61\source\repos\2assignment_graphics\2assignment_graphics\main.cpp(575,13): warning C4838: 'double'에서 'GLfloat'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\uni61\source\repos\2assignment_graphics\2assignment_graphics\main.cpp(575,31): warning C4838: 'double'에서 'GLfloat'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\uni61\source\repos\2assignment_graphics\2assignment_graphics\main.cpp(575,48): warning C4838: 'double'에서 'GLfloat'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\uni61\source\repos\2assignment_graphics\2assignment_graphics\main.cpp(576,14): warning C4838: 'double'에서 'GLfloat'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\uni61\source\repos\2assignment_graphics\2assignment_graphics\main.cpp(576,32): warning C4838: 'double'에서 'GLfloat'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\uni61\source\repos\2assignment_graphics\2assignment_graphics\main.cpp(576,49): warning C4838: 'double'에서 'GLfloat'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\uni61\source\repos\2assignment_graphics\2assignment_graphics\main.cpp(577,14): warning C4838: 'double'에서 'GLfloat'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\uni61\source\repos\2assignment_graphics\2assignment_graphics\main.cpp(577,31): warning C4838: 'double'에서 'GLfloat'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\uni61\source\repos\2assignment_graphics\2assignment_graphics\main.cpp(577,48): warning C4838: 'double'에서 'GLfloat'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\uni61\source\repos\2assignment_graphics\2assignment_graphics\main.cpp(578,13): warning C4838: 'double'에서 'GLfloat'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\uni61\source\repos\2assignment_graphics\2assignment_graphics\main.cpp(578,30): warning C4838: 'double'에서 'GLfloat'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\uni61\source\repos\2assignment_graphics\2assignment_graphics\main.cpp(578,47): warning C4838: 'double'에서 'GLfloat'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\uni61\source\repos\2assignment_graphics\2assignment_graphics\main.cpp(579,13): warning C4838: 'double'에서 'GLfloat'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\uni61\source\repos\2assignment_graphics\2assignment_graphics\main.cpp(579,31): warning C4838: 'double'에서 'GLfloat'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\uni61\source\repos\2assignment_graphics\2assignment_graphics\main.cpp(579,49): warning C4838: 'double'에서 'GLfloat'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\uni61\source\repos\2assignment_graphics\2assignment_graphics\main.cpp(580,14): warning C4838: 'double'에서 'GLfloat'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\uni61\source\repos\2assignment_graphics\2assignment_graphics\main.cpp(580,32): warning C4838: 'double'에서 'GLfloat'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\uni61\source\repos\2assignment_graphics\2assignment_graphics\main.cpp(580,50): warning C4838: 'double'에서 'GLfloat'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\uni61\source\repos\2assignment_graphics\2assignment_graphics\main.cpp(581,14): warning C4838: 'double'에서 'GLfloat'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\uni61\source\repos\2assignment_graphics\2assignment_graphics\main.cpp(581,31): warning C4838: 'double'에서 'GLfloat'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\uni61\source\repos\2assignment_graphics\2assignment_graphics\main.cpp(581,49): warning C4838: 'double'에서 'GLfloat'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\uni61\source\repos\2assignment_graphics\2assignment_graphics\main.cpp(582,13): warning C4838: 'double'에서 'GLfloat'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\uni61\source\repos\2assignment_graphics\2assignment_graphics\main.cpp(582,30): warning C4838: 'double'에서 'GLfloat'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\uni61\source\repos\2assignment_graphics\2assignment_graphics\main.cpp(582,48): warning C4838: 'double'에서 'GLfloat'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\uni61\source\repos\2assignment_graphics\2assignment_graphics\main.cpp(681,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\uni61\source\repos\2assignment_graphics\2assignment_graphics\main.cpp(691,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\uni61\source\repos\2assignment_graphics\2assignment_graphics\main.cpp(716,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\uni61\source\repos\2assignment_graphics\2assignment_graphics\main.cpp(732,21): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\uni61\source\repos\2assignment_graphics\2assignment_graphics\main.cpp(743,22): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\uni61\source\repos\2assignment_graphics\2assignment_graphics\main.cpp(782,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  2assignment_graphics.vcxproj -> C:\Users\uni61\source\repos\2assignment_graphics\Debug\2assignment_graphics.exe
