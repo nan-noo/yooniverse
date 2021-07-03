@@ -1,1 +1,2 @@
-# individual practice & assignments
+# CS
+### 개인 과제, 정리 노트 등
